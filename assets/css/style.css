@@ -844,6 +844,17 @@ label.custom-checkbox .checkmark:after {
     border: 2px solid #fff;
     transition: 0.5s all;
 }
+.btn-gray-fill {
+    background-color: #444444; /* gris */
+    color: #ffffff;
+    border: 2px solid #ffb600; /* amarillo 🔥 */
+    transition: 0.3s all ease;
+}
+.btn-gray-fill:hover {
+    background-color: #ffb600; /* amarillo */
+    border-color: #ffb600;
+    color: #000;
+}
 .btn-border:focus,
 .btn-border:hover{
     color: #111111;
@@ -1374,7 +1385,7 @@ label.custom-checkbox .checkmark:after {
     display: flex;
 }
 .menu-style .header .right-side-2 .cta-btn{
-    background-color: #ffb600;
+    background-color: #44454D;
     position: relative;
 }
 .menu-style .header .right-side-2 .cta-btn .cta-text{
@@ -1396,7 +1407,7 @@ label.custom-checkbox .checkmark:after {
 .menu-style .header .right-side-2 .cta-btn .cta-text:after{
     content: '';
     display: block;
-    background-color: #ffb600;
+    background-color: #44454D;
     width: 1000%;
     height: 100%;
     position: absolute;
@@ -1667,6 +1678,10 @@ label.custom-checkbox .checkmark:after {
 .simple-banner .slide-item .content-wrapper{
     transition: all 1s linear;
     transition-delay: 1s;
+}
+.hero-text h1 {
+    margin-bottom: 5px;
+    line-height: 0.8;
 }
 .simple-banner .slide-item .content-wrapper p,
 .simple-banner .slide-item .content-wrapper a,
