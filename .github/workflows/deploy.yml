@@ -21,9 +21,12 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
+          # Debe ser solo hostname, sin http/https, sin puerto y sin rutas
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           # Excluir archivos que no deben subirse al servidor
           exclude: |
