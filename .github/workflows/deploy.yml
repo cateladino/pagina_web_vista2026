@@ -30,8 +30,6 @@ jobs:
           port: 21
           # Esta cuenta FTP ya apunta a /public_html, por eso aquí debe ser /
           server-dir: /
-          # Deja el destino como espejo del repositorio
-          dangerous-clean-slate: true
           # Excluir archivos que no deben subirse al servidor
           exclude: |
             **/.git*
