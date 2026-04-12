@@ -28,6 +28,8 @@ jobs:
           protocol: ftp
           port: 21
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Deja el destino como espejo del repositorio
+          dangerous-clean-slate: true
           # Excluir archivos que no deben subirse al servidor
           exclude: |
             **/.git*
@@ -36,3 +38,4 @@ jobs:
             **/.DS_Store
             **/package-lock.json
             **/.github/**
+            **/.well-known/**
