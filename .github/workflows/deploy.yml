@@ -17,59 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Preflight: valida formato de secrets y conectividad DNS/FTP
-      - name: Preflight FTP diagnostics
-        shell: bash
-        env:
-          FTP_SERVER: ${{ secrets.FTP_SERVER }}
-          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
-        run: |
-          set -euo pipefail
-          echo "Starting FTP preflight checks..."
-          echo "FTP_SERVER length: ${#FTP_SERVER}"
-          echo "FTP_SERVER_DIR: ${FTP_SERVER_DIR}"
-
-          if [ -z "${FTP_SERVER}" ]; then
-            echo "::error::FTP_SERVER is empty."
-            exit 1
-          fi
-
-          if [[ "${FTP_SERVER}" == *"://"* ]]; then
-            echo "::error::FTP_SERVER must not include protocol (http://, https://, ftp://)."
-            exit 1
-          fi
-
-          if [[ "${FTP_SERVER}" == */* ]]; then
-            echo "::error::FTP_SERVER must be only hostname, without paths."
-            exit 1
-          fi
-
-          if [[ "${FTP_SERVER}" == *":"* ]]; then
-            echo "::error::FTP_SERVER must not include port. Use 'port: 21' in workflow."
-            exit 1
-          fi
-
-          if [[ "${FTP_SERVER}" =~ [[:space:]] ]]; then
-            echo "::error::FTP_SERVER contains spaces."
-            exit 1
-          fi
-
-          echo "Resolving DNS..."
-          if getent hosts "${FTP_SERVER}"; then
-            echo "DNS resolution OK."
-          else
-            echo "::error::DNS resolution failed for FTP_SERVER."
-            exit 1
-          fi
-
-          echo "Testing TCP connectivity to port 21..."
-          if timeout 8 bash -c "cat < /dev/null > /dev/tcp/${FTP_SERVER}/21"; then
-            echo "Port 21 reachable."
-          else
-            echo "::warning::Could not connect to port 21. DNS works, but FTP service may be blocked or disabled."
-          fi
-
-      # 3. Despliega via FTP a GoDaddy cPanel
+      # 2. Despliega via FTP a GoDaddy cPanel
       # Sube solo los archivos que cambiaron (estado en .ftp-deploy-sync-state.json)
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -80,7 +28,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           port: 21
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Esta cuenta FTP ya apunta a /public_html, por eso aquí debe ser /
+          server-dir: /
           # Deja el destino como espejo del repositorio
           dangerous-clean-slate: true
           # Excluir archivos que no deben subirse al servidor
