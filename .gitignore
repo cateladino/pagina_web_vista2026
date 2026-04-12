@@ -1,0 +1,16 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Dependencias
+node_modules/
+
+# Archivos de estado del deploy FTP (generado automáticamente)
+.ftp-deploy-sync-state.json
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log

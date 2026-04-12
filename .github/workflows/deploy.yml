@@ -1,0 +1,35 @@
+name: Deploy to GoDaddy cPanel
+
+# Disparador: se ejecuta en cada push a la rama main
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy via FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Descarga el código del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Despliega via FTP a GoDaddy cPanel
+      # Sube solo los archivos que cambiaron (estado en .ftp-deploy-sync-state.json)
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # Excluir archivos que no deben subirse al servidor
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.DS_Store
+            **/package-lock.json
+            **/.github/**
