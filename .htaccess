@@ -2,16 +2,21 @@
 # Goal: show updates quickly after each deploy
 
 <IfModule mod_headers.c>
-  # HTML should never be cached so new content appears immediately
-  <FilesMatch "\.(html|htm)$">
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  # HTML NUNCA se cachea
+  <FilesMatch "\.html?$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
     Header set Pragma "no-cache"
-    Header set Expires "0"
+    Header set Expires "-1"
   </FilesMatch>
 
-  # CSS/JS revalidate on each request
+  # CSS y JS con versioning - Podem reutilizarse cada hora
   <FilesMatch "\.(css|js)$">
-    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Cache-Control "public, must-revalidate, max-age=3600"
+  </FilesMatch>
+  
+  # Images se cachean 30 días
+  <FilesMatch "\.(jpg|jpeg|png|gif|ico|webp|svg)$">
+    Header set Cache-Control "public, max-age=2592000"
   </FilesMatch>
 </IfModule>
 
